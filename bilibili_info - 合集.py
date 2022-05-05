@@ -10,6 +10,8 @@ def change_time(created):
     otherStyleTime = time.strftime("%m.%d", timeArray)
     return otherStyleTime
 
+userid = input('输入目标userid：')
+series_id = input('输入目标series_id(网址上写作sid)：')
 i=1
 ifloop=1
 # 循环19次，将每一页的数据都抓取到
@@ -19,7 +21,7 @@ while ifloop==1 :
         'User-Agent': ' Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
     }
     # 包含待爬取信息的url
-    url = 'https://api.bilibili.com/x/series/archives?mid=617459493&series_id=379199&pn=%s&ps=25&jsonp=jsonp' % (i)
+    url = 'https://api.bilibili.com/x/series/archives?mid=%s&series_id=%s&pn=%s&ps=25&jsonp=jsonp' % (userid, series_id, i)
     # 访问url
     r = requests.get(url, headers)
     # 将爬取道德json格式的数据转化为字典
