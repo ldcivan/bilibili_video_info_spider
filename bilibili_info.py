@@ -41,7 +41,7 @@ while ifloop==1 :
             # 转化为字符串格式
             result = ''.join(list)
             # 写进文件里
-            with open('wlg.txt', 'a+', encoding="utf-8") as f:
+            with open(userid+'.txt', 'a+', encoding="utf-8") as f:
                 f.write(result + '\n')
     if ifloop==1:
         print("%s结束" % i)
@@ -50,11 +50,11 @@ while ifloop==1 :
     else:
         print("全部结束，进行倒序")
 
-with open('wlg.txt','r', encoding="utf-8") as fp1, open('wlg_output.txt','w', encoding="utf-8") as fp2:
+with open(userid+'.txt','r', encoding="utf-8") as fp1, open(userid+'_out.txt','w', encoding="utf-8") as fp2:
     fp2.write(''.join(fp1.readlines()[::-1]))
 
 print("倒序结束，正在Wiki text化")
-with open('wlg_output.txt', 'r', encoding="utf-8") as f:
+with open(userid+'_out.txt', 'r', encoding="utf-8") as f:
     contents = f.read()# 打开这个文件
-with open('wlg_output.txt', 'w', encoding="utf-8") as f:
+with open(userid+'_out.txt', 'w', encoding="utf-8") as f:
     f.write(contents.replace('|', '\n|'))
