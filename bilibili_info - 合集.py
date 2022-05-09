@@ -21,7 +21,7 @@ while ifloop==1 :
         'User-Agent': ' Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
     }
     # 包含待爬取信息的url
-    url = 'https://api.bilibili.com/x/series/archives?mid=%s&series_id=%s&pn=%s&ps=25&jsonp=jsonp' % (userid, series_id, i)
+    url = 'https://api.bilibili.com/x/polymer/space/seasons_archives_list?mid=%s&season_id=%s&sort_reverse=false&page_num=%s&page_size=30' % (userid, series_id, i)
     # 访问url
     r = requests.get(url, headers)
     # 将爬取道德json格式的数据转化为字典
@@ -31,18 +31,18 @@ while ifloop==1 :
     res = text['data']['archives']
     aids = text['data']['aids']
     print(aids)
-    if aids==None:
+    if aids==[]:
         ifloop=0
     for item in res:
         if "【咩栗】" in item['title']:
-            print("跳过%s" % item['title'])
+            print("跳过%s" % item['title'])#排除需要排除的
         else:
             # 以列表的形式取出对我们有用的数据
             list = ['|-|' + str(change_time(item['ctime'])), '|' + item['title'], '| |{{bililink|' + str(item['bvid']) + '}}', '|']
             # 转化为字符串格式
             result = ''.join(list)
             # 写进文件里
-            with open('wlg.txt', 'a+', encoding="utf-8") as f:
+            with open(userid+'_'+series_id+'.txt', 'a+', encoding="utf-8") as f:
                 f.write(result + '\n')
     if ifloop==1:
         print("%s结束" % i)
@@ -51,11 +51,11 @@ while ifloop==1 :
     else:
         print("全部结束，进行倒序")
 
-with open('wlg.txt','r', encoding="utf-8") as fp1, open('wlg_output.txt','w', encoding="utf-8") as fp2:
+with open(userid+'_'+series_id+'.txt','r', encoding="utf-8") as fp1, open(userid+'_'+series_id+'_out.txt','w', encoding="utf-8") as fp2:
     fp2.write(''.join(fp1.readlines()[::-1]))
 
 print("倒序结束，正在Wiki text化")
-with open('wlg_output.txt', 'r', encoding="utf-8") as f:
+with open(userid+'_'+series_id+'_out.txt', 'r', encoding="utf-8") as f:
     contents = f.read()# 打开这个文件
-with open('wlg_output.txt', 'w', encoding="utf-8") as f:
+with open(userid+'_'+series_id+'_out.txt', 'w', encoding="utf-8") as f:
     f.write(contents.replace('|', '\n|'))
